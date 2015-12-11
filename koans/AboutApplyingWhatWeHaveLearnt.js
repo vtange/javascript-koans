@@ -32,7 +32,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
@@ -41,7 +41,15 @@ describe("About Applying What We Have Learnt", function() {
 
       /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+	  var noNuts = function(input){
+		  return input.containsNuts == false;
+	  }
+	  var noMushrooms = function(input){
+		  return input.ingredients.indexOf("mushrooms") == -1;// i like indexOf more than any()  :)
+	  }
+	  productsICanEat = products.filter(noNuts).filter(noMushrooms);
+	  
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -55,14 +63,18 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
+	  
+	var threeOrfive = function(input){
+		return input % 3 === 0 || input % 5 === 0;
+	}
+	  
+    var sum = _.range(1,1000).filter(threeOrfive).reduce(function(a,b){return a+b;});    /* try chaining range() and reduce() */
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
-
-    expect(233168).toBe(FILL_ME_IN);
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -75,7 +87,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
@@ -83,7 +95,25 @@ describe("About Applying What We Have Learnt", function() {
 
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+function counter(){
+//1 declare a array to store number counts per array
+    var counts = {};
+    //2. loop through each array, count number of occurances each number
+    for (var j=0;j<arguments.length;j++){ 
+        for(var i = 0; i< arguments[j].length; i++) {
+            var num = arguments[j][i];
+            counts[num] = counts[num] ? counts[num]+1 : 1;
+        }
+    }
+    return counts;
+}
+	  ingredientCount = counter(["artichoke", "sundried tomatoes", "mushrooms"],
+["roma", "sundried tomatoes", "goats cheese", "rosemary"],
+["black beans", "jalapenos", "mushrooms"],
+["blue cheese", "garlic", "walnuts"],
+["spinach", "kalamata olives", "sesame seeds"]);
+	  
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
